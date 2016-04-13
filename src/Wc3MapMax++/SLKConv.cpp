@@ -73,7 +73,7 @@ inline char* Malloc(int size)		//内存块分配
 {
 	if (g_CachePos+size > g_CacheEnd)
 	{
-		g_Cache[g_CacheNum]=(char*)malloc(GLOBAL_CACHE_SIZE);
+		g_Cache[g_CacheNum]=static_cast<char*>(malloc(GLOBAL_CACHE_SIZE));
 		g_CachePos=g_Cache[g_CacheNum];
 		g_CacheEnd=g_CachePos+GLOBAL_CACHE_SIZE;
 		g_CacheNum++;
@@ -86,7 +86,7 @@ inline char* Calloc(int size)		//内存块分配
 {
 	if (g_CachePos+size > g_CacheEnd)
 	{
-		g_Cache[g_CacheNum]=(char*)malloc(GLOBAL_CACHE_SIZE);
+		g_Cache[g_CacheNum]=static_cast<char*>(malloc(GLOBAL_CACHE_SIZE));
 		g_CachePos=g_Cache[g_CacheNum];
 		g_CacheEnd=g_CachePos+GLOBAL_CACHE_SIZE;
 		g_CacheNum++;
@@ -100,8 +100,8 @@ void FlushGlobalCache()			//清除所有分配的内存区块
 {
 	for(;g_CacheNum>0;g_CacheNum--)
 		free(g_Cache[g_CacheNum]);
-	g_CachePos=NULL;
-	g_CacheEnd=NULL;
+	g_CachePos=nullptr;
+	g_CacheEnd=nullptr;
 }
 
 #include "hash.h"
@@ -109,7 +109,7 @@ void FlushGlobalCache()			//清除所有分配的内存区块
 char* txtFieldIsValue;			//[TXT_HASH_MAX];
 char* txtFieldNoEmpty;			//[TXT_HASH_MAX];
 char* txtFieldIsList;			//[TXT_HASH_MAX];
-char* abiDataField[10]={NULL,"DataA","DataB","DataC","DataD","DataE","DataF","DataG","DataH","DataI"};
+char* abiDataField[10]={nullptr,"DataA","DataB","DataC","DataD","DataE","DataF","DataG","DataH","DataI"};
 int objectId[OBJ_HASH_MAX];			//Origin Object
 int objectLevel[OBJ_HASH_MAX];
 int abilDataSearch_Field[7];
@@ -282,9 +282,9 @@ inline char* f2a(double f,char* a,char n,bool canBeInt)
 	for(j=n;j>0;j--)
 		z*=10;
 	f+=0.5/z;
-	register int x=(int)f;
+	register int x=int(f);
 	f=(f-x)*z;
-	register int y=(int)f;
+	register int y=int(f);
 
 	if (x==0)
 	{
@@ -343,9 +343,9 @@ inline char* f2a(double f,char n,bool canBeInt)
 	for(j=n;j>0;j--)
 		z*=10;
 	f+=0.5/z;
-	register int x=(int)f;
+	register int x=int(f);
 	f=(f-x)*z;
-	register int y=(int)f;
+	register int y=int(f);
 
 	if (x==0)
 	{
@@ -389,8 +389,8 @@ inline char* f2a(double f,char n,bool canBeInt)
 
 char* ValueString(char* s)	//数值型字符简化，如0.340 => .34
 {
-	if (s==NULL)
-		return NULL;
+	if (s==nullptr)
+		return nullptr;
 	char* t=s;
 	for (;*t!='.';t++)
 	{
@@ -419,7 +419,7 @@ char* ValueString(char* s)	//数值型字符简化，如0.340 => .34
 void StringToArray(char* s, char** t, int n, bool isValue)	//将txt文本数据s按等级分配到数组t
 {	//s不能是常量,并会被变动,且生成的数组t是基于s的
 	int i=0;
-	for(int i=0;i<n && t[i]!=NULL;i++)	//如果已有记录则为追加
+	for(int i=0;i<n && t[i]!= nullptr;i++)	//如果已有记录则为追加
 		;
 	for(;i<n;i++)
 	{
@@ -541,9 +541,9 @@ inline void WriteFloat(int fp,double f,char n,bool canBeInt)
 	for(j=n;j>0;j--)
 		z*=10;
 	f+=0.5/z;
-	register int x=(int)f;
+	register int x=int(f);
 	f=(f-x)*z;
-	register int y=(int)f;
+	register int y=int(f);
 
 	if (x==0)
 	{
