@@ -139,8 +139,8 @@ void InitUsedField(char* s)
 
 void InitSlkOptField(char* slkPath)
 {
-	char* slkName=slkPath;
-	for(int i=0;slkPath[i]!=NULL;i++)
+	auto slkName=slkPath;
+	for(auto i=0;slkPath[i]!=NULL;i++)
 	{
 		if (slkPath[i]=='\\')
 			slkName=slkPath+i+1;
@@ -185,7 +185,7 @@ void InitSlkOptField(char* slkPath)
 
 int a2i(char* a)
 {
-	register int i=1,x=0;
+	register auto i=1,x=0;
 	if (*a == '-')
 		i=-1,a++;
 	for(;;)
@@ -211,14 +211,14 @@ unsigned int a2ui(char* a)
 
 char* i2a(int i,char* a)
 {
-	char* b=a;
+	auto b=a;
 	if (i<0)
 	{
 		i=-i;
 		*b='-';
 		b++;
 	}
-	register int j=0;
+	register auto j=0;
 	register int k[10];
 	for(;;)
 	{
@@ -239,15 +239,15 @@ char* i2a(int i,char* a)
 
 char* i2a(int i)
 {
-	char* a=Malloc(12);
-	char* b=a;
+	auto a=Malloc(12);
+	auto b=a;
 	if (i<0)
 	{
 		i=-i;
 		*b='-';
 		b++;
 	}
-	register int j=0;
+	register auto j=0;
 	register int k[10];
 	for(;;)
 	{
@@ -278,13 +278,13 @@ inline char* f2a(double f,char* a,char n,bool canBeInt)
 	else
 		i=0;
 
-	register int z=1;
+	register auto z=1;
 	for(j=n;j>0;j--)
 		z*=10;
 	f+=0.5/z;
-	register int x=int(f);
+	register auto x=int(f);
 	f=(f-x)*z;
-	register int y=int(f);
+	register auto y=int(f);
 
 	if (x==0)
 	{
@@ -328,7 +328,7 @@ inline char* f2a(double f,char* a,char n,bool canBeInt)
 
 inline char* f2a(double f,char n,bool canBeInt)
 {
-	char* a=Malloc(20);
+	auto a=Malloc(20);
 	register char i,j;
 	if (f<0)
 	{
@@ -339,13 +339,13 @@ inline char* f2a(double f,char n,bool canBeInt)
 	else
 		i=0;
 
-	register int z=1;
+	register auto z=1;
 	for(j=n;j>0;j--)
 		z*=10;
 	f+=0.5/z;
-	register int x=int(f);
+	register auto x=int(f);
 	f=(f-x)*z;
-	register int y=int(f);
+	register auto y=int(f);
 
 	if (x==0)
 	{
@@ -397,7 +397,7 @@ char* ValueString(char* s)	//数值型字符简化，如0.340 => .34
 		if (*t==NULL)
 			return s;
 	}
-	char* v=t+1;
+	auto v=t+1;
 	for (;*v=='0';v++)
 		;
 	if (*v==NULL)
